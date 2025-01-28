@@ -1,0 +1,130 @@
+[gd_scene load_steps=14 format=3 uid="uid://bivacts15r12f"]
+
+[ext_resource type="Script" path="res://scripts/plane/plane.gd" id="1_ia32l"]
+[ext_resource type="Texture2D" uid="uid://dbc57ujuroopi" path="res://resource/img/plane.png" id="2_3x44m"]
+[ext_resource type="PackedScene" uid="uid://3owm1bforxoy" path="res://scene/Explosion/Explosion.tscn" id="2_mqny0"]
+[ext_resource type="FontFile" uid="uid://jcbtauc4b57x" path="res://resource/font/fusion-pixel-10px-monospaced-zh_hans.ttf" id="3_tugf3"]
+[ext_resource type="AudioStream" uid="uid://cecqfpkyd7vs5" path="res://resource/sound/jet.mp3" id="5_wi7oe"]
+[ext_resource type="AudioStream" uid="uid://y2fuirmji787" path="res://resource/sound/shut_down.mp3" id="6_7s3lf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lcrml"]
+atlas = ExtResource("2_3x44m")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3ysj"]
+atlas = ExtResource("2_3x44m")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ny7kx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lcrml")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3ysj")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_uctc7"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.539906, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0.431373, 0.439216, 1, 0.952941, 0.952941, 0.952941, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_glt24"]
+gradient = SubResource("Gradient_uctc7")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_gl0kj"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.460094, 0.633803)
+colors = PackedColorArray(0.431373, 1, 0.835294, 0, 0, 0.709804, 0.709804, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xttto"]
+gradient = SubResource("Gradient_gl0kj")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+metadata/_snap_enabled = true
+
+[node name="Plane" type="CharacterBody2D" node_paths=PackedStringArray("spirte", "ui_fuel_bar", "jet_sound", "shut_sound")]
+script = ExtResource("1_ia32l")
+spirte = NodePath("AnimatedSprite2D")
+ui_fuel_bar = NodePath("CanvasLayer/剩余燃料")
+explosion = ExtResource("2_mqny0")
+jet_sound = NodePath("Node/jet")
+shut_sound = NodePath("Node/shut_down")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+polygon = PackedVector2Array(-14, 22, -14, 18, -17, 18, -17, 16, -23, 16, -23, 6, -13, -5, -11, -5, -11, -17, -1, -27, 1, -27, 11, -17, 11, -5, 13, -5, 23, 6, 23, 16, 17, 16, 17, 18, 14, 18, 14, 22)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_ny7kx")
+animation = &"moving"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="剩余燃料" type="TextureProgressBar" parent="CanvasLayer"]
+offset_left = 960.0
+offset_top = 25.0
+offset_right = 1101.0
+offset_bottom = 166.0
+value = 33.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_glt24")
+texture_progress = SubResource("GradientTexture2D_xttto")
+
+[node name="Label" type="Label" parent="CanvasLayer/剩余燃料"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.215
+anchor_top = 1.0
+anchor_right = 0.954
+anchor_bottom = 1.223
+offset_left = -217.685
+offset_top = -97.0
+offset_right = -148.514
+offset_bottom = -51.443
+theme_override_fonts/font = ExtResource("3_tugf3")
+theme_override_font_sizes/font_size = 36
+text = "剩余燃料：60%"
+
+[node name="当前速度" type="Label" parent="CanvasLayer"]
+offset_left = 49.0
+offset_top = 65.0
+offset_right = 265.0
+offset_bottom = 102.0
+theme_override_fonts/font = ExtResource("3_tugf3")
+theme_override_font_sizes/font_size = 36
+text = "当前速率: 50"
+
+[node name="Node" type="Node" parent="."]
+
+[node name="jet" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("5_wi7oe")
+volume_db = -17.223
+parameters/looping = true
+
+[node name="shut_down" type="AudioStreamPlayer" parent="Node"]
+stream = ExtResource("6_7s3lf")
