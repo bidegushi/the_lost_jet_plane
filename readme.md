@@ -1,2 +1,2 @@
 
-**这个仓库本体在Github: https://github.com/bidegushi/the_lost_jet_plane.git**
+**这个仓库本体在Gitee: https://gitee.com/huluntt/the_lost_jet_plane.git**
