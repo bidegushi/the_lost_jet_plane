@@ -11,11 +11,12 @@ extends CharacterBody2D
 var rotation_speed: float = 10.0 #转向速度
 
 
-var fuel_amount : float = 100 #燃油总量
+@export var fuel_amount : float = 100 #燃油总量
 var fuel_usage_rate : float = 2 #每秒消耗量
 var propulsion_acceleration : float = 100 #推进的加速度
 var zeta:float=25 #飞行中的阻尼的加速度
 
+var is_game_started : bool = false
 var is_game_over : bool = false
 
 
@@ -23,7 +24,7 @@ var is_game_over : bool = false
 func _ready() -> void:
 	ui_fuel_bar.max_value=fuel_amount #设定右上角燃料量进度条的最大值
 	ui_fuel_bar.value=fuel_amount 
-	block_tile_layer=$"../Blocks"
+	block_tile_layer=$"../TileMapLayers/Blocks"
 	
 func _process(delta: float) -> void:
 
@@ -38,7 +39,7 @@ func _physics_process(delta: float) -> void:
 	show_fuel(delta)
 	show_speed()
 	
-	if not is_game_over:
+	if not is_game_over and is_game_started:
 		toward_mouse(delta)
 		move(delta)
 		damp(delta)
@@ -103,7 +104,6 @@ func move(delta:float)->void:
 			jet_sound.stop()
 		
 		if not shut_sound.playing and not has_shut_sound_played:
-			print("aaa")
 			shut_sound.play()
 			has_shut_sound_played=true
 	
@@ -133,9 +133,12 @@ func show_fuel(delta : float)->void:
 	ui_fuel_bar.value=lerp(ui_fuel_bar.value,fuel_amount,delta*5)
 	$"CanvasLayer/剩余燃料/Label".text="剩余燃料: "+str(int(100*fuel_amount/ui_fuel_bar.max_value))+"%"
 
-#左上角显示速率
+func speed()->float:#获取速率的函数
+	return velocity.length()
+
+#右上角显示速率
 func show_speed()->void:
-	$"CanvasLayer/当前速度".text="当前速率: "+str(int(velocity.length()))
+	$"CanvasLayer/当前速度".text="当前速率: "+str(int(speed()))
 
 func check(delta:float)->void:
 	pass

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://doy8kaynsa6fm"]
+
+[ext_resource type="Script" path="res://scripts/obstacle/rock.gd" id="1_h71y2"]
+[ext_resource type="Texture2D" uid="uid://dxapooi1yui8q" path="res://resource/img/rock_big.png" id="2_d5exv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ppn8w"]
+radius = 21.0
+
+[node name="Rock" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_h71y2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_d5exv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -2)
+shape = SubResource("CircleShape2D_ppn8w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

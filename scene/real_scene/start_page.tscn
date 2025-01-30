@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://pv3co8a7kfwn"]
+
+[ext_resource type="Script" path="res://scripts/real_scene/start_page.gd" id="1_7who4"]
+[ext_resource type="FontFile" uid="uid://jcbtauc4b57x" path="res://resource/font/fusion-pixel-10px-monospaced-zh_hans.ttf" id="2_yuud4"]
+[ext_resource type="Texture2D" uid="uid://ckcjk45jjwwgg" path="res://resource/img/button_empty.png" id="3_hyou7"]
+
+[node name="StartPage" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7who4")
+
+[node name="Background" type="Sprite2D" parent="."]
+
+[node name="开始游戏" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 414.0
+offset_top = 276.0
+offset_right = 712.0
+offset_bottom = 381.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_yuud4")
+theme_override_font_sizes/font_size = 41
+text = "开始游戏"
+icon = ExtResource("3_hyou7")
+icon_alignment = 1
+expand_icon = true
+
+[node name="陨石模式" type="Button" parent="."]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 415.0
+offset_right = 716.0
+offset_bottom = 520.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_yuud4")
+theme_override_font_sizes/font_size = 41
+text = "陨石模式"
+icon = ExtResource("3_hyou7")
+icon_alignment = 1
+expand_icon = true
+
+[connection signal="pressed" from="开始游戏" to="." method="_on_开始游戏_pressed"]
+[connection signal="pressed" from="陨石模式" to="." method="_on_陨石模式_pressed"]

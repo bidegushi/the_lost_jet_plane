@@ -1,14 +1,19 @@
-[gd_scene load_steps=6 format=4 uid="uid://by8ox12r3u78f"]
+[gd_scene load_steps=9 format=4 uid="uid://by8ox12r3u78f"]
 
 [ext_resource type="PackedScene" uid="uid://bivacts15r12f" path="res://scene/plane/plane.tscn" id="1_ere8c"]
+[ext_resource type="Script" path="res://scripts/real_scene/base_scene.gd" id="1_kcqdo"]
 [ext_resource type="TileSet" uid="uid://da2fmkcsbnamy" path="res://tileset/star_sky_tile_set.tres" id="1_qjihl"]
 [ext_resource type="TileSet" uid="uid://c5b87f0aswrpb" path="res://tileset/blocks_tile_set.tres" id="2_ecmfm"]
 [ext_resource type="Script" path="res://scripts/real_scene/die_zoom.gd" id="3_5fdl1"]
+[ext_resource type="FontFile" uid="uid://jcbtauc4b57x" path="res://resource/font/fusion-pixel-10px-monospaced-zh_hans.ttf" id="6_hxy65"]
+[ext_resource type="Texture2D" uid="uid://ckcjk45jjwwgg" path="res://resource/img/button_empty.png" id="7_ivkah"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0j0x"]
 size = Vector2(63, 63)
 
-[node name="BaseScene" type="Node2D"]
+[node name="BaseScene" type="Node2D" node_paths=PackedStringArray("plane")]
+script = ExtResource("1_kcqdo")
+plane = NodePath("Plane")
 
 [node name="TileMapLayers" type="Node2D" parent="."]
 
@@ -31,4 +36,39 @@ shape = SubResource("RectangleShape2D_v0j0x")
 [node name="Plane" parent="." node_paths=PackedStringArray("block_tile_layer") instance=ExtResource("1_ere8c")]
 block_tile_layer = NodePath("../TileMapLayers/Blocks")
 
+[node name="LoseCanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="游戏失败" type="Label" parent="LoseCanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -182.0
+offset_top = 246.0
+offset_right = 182.0
+offset_bottom = 338.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("6_hxy65")
+theme_override_font_sizes/font_size = 151
+text = "游戏失败"
+
+[node name="RetryButton" type="Button" parent="LoseCanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -134.5
+offset_top = 428.0
+offset_right = 134.5
+offset_bottom = 532.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_hxy65")
+theme_override_font_sizes/font_size = 56
+text = "重试"
+icon = ExtResource("7_ivkah")
+icon_alignment = 1
+expand_icon = true
+
 [connection signal="body_entered" from="TileMapLayers/Blocks/DieZoom" to="TileMapLayers/Blocks/DieZoom" method="_on_body_entered"]
+[connection signal="pressed" from="LoseCanvasLayer/RetryButton" to="." method="_on_retry_button_pressed"]

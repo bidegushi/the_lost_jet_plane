@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bivacts15r12f"]
+[gd_scene load_steps=15 format=3 uid="uid://bivacts15r12f"]
 
 [ext_resource type="Script" path="res://scripts/plane/plane.gd" id="1_ia32l"]
 [ext_resource type="Texture2D" uid="uid://dbc57ujuroopi" path="res://resource/img/plane.png" id="2_3x44m"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://jcbtauc4b57x" path="res://resource/font/fusion-pixel-10px-monospaced-zh_hans.ttf" id="3_tugf3"]
 [ext_resource type="AudioStream" uid="uid://cecqfpkyd7vs5" path="res://resource/sound/jet.mp3" id="5_wi7oe"]
 [ext_resource type="AudioStream" uid="uid://y2fuirmji787" path="res://resource/sound/shut_down.mp3" id="6_7s3lf"]
+[ext_resource type="PackedScene" uid="uid://14agiro00qpk" path="res://scene/ui_component/mini_map.tscn" id="7_t71ky"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lcrml"]
 atlas = ExtResource("2_3x44m")
@@ -58,7 +59,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0, 0)
 metadata/_snap_enabled = true
 
-[node name="Plane" type="CharacterBody2D" node_paths=PackedStringArray("spirte", "ui_fuel_bar", "jet_sound", "shut_sound")]
+[node name="Plane" type="CharacterBody2D" node_paths=PackedStringArray("spirte", "ui_fuel_bar", "jet_sound", "shut_sound") groups=["plane"]]
 script = ExtResource("1_ia32l")
 spirte = NodePath("AnimatedSprite2D")
 ui_fuel_bar = NodePath("CanvasLayer/剩余燃料")
@@ -98,23 +99,23 @@ texture_progress = SubResource("GradientTexture2D_xttto")
 [node name="Label" type="Label" parent="CanvasLayer/剩余燃料"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.215
-anchor_top = 1.0
-anchor_right = 0.954
-anchor_bottom = 1.223
-offset_left = -217.685
-offset_top = -97.0
-offset_right = -148.514
-offset_bottom = -51.443
+anchor_left = 1.359
+anchor_top = -0.186
+anchor_right = 1.359
+anchor_bottom = -0.186
+offset_left = -434.619
+offset_top = 59.226
+offset_right = -200.619
+offset_bottom = 136.226
 theme_override_fonts/font = ExtResource("3_tugf3")
 theme_override_font_sizes/font_size = 36
 text = "剩余燃料：60%"
 
 [node name="当前速度" type="Label" parent="CanvasLayer"]
-offset_left = 49.0
-offset_top = 65.0
-offset_right = 265.0
-offset_bottom = 102.0
+offset_left = 718.0
+offset_top = 106.0
+offset_right = 934.0
+offset_bottom = 143.0
 theme_override_fonts/font = ExtResource("3_tugf3")
 theme_override_font_sizes/font_size = 36
 text = "当前速率: 50"
@@ -123,8 +124,11 @@ text = "当前速率: 50"
 
 [node name="jet" type="AudioStreamPlayer" parent="Node"]
 stream = ExtResource("5_wi7oe")
-volume_db = -17.223
+volume_db = -35.066
 parameters/looping = true
 
 [node name="shut_down" type="AudioStreamPlayer" parent="Node"]
 stream = ExtResource("6_7s3lf")
+volume_db = -27.31
+
+[node name="MiniMap" parent="." instance=ExtResource("7_t71ky")]
